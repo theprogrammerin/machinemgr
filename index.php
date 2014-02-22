@@ -4,8 +4,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Sample Website</title>
 
+		<link rel="stylesheet" type="text/css" href="_styles/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="_styles/bootstrap-theme.css" />
 		<link rel="stylesheet" type="text/css" href="_styles/style.css" />
 
+		<script src="_scripts/bootstrap.js" ></script>
 		<script src="_scripts/loader.js" ></script>
 	</head>
 	<body>

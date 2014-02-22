@@ -7,3 +7,4 @@
 
 *.fuse_hid*
 *~
+*.DS_Store
