@@ -2,13 +2,17 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Sample Website</title>
+		<title>HR :: Task Manager</title>
 
 		<link rel="stylesheet" type="text/css" href="_styles/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="_styles/bootstrap-theme.css" />
 		<link rel="stylesheet" type="text/css" href="_styles/style.css" />
 
+		<script src="_scripts/jquery-2.1.0.js" ></script>
 		<script src="_scripts/bootstrap.js" ></script>
+		<script src="_scripts/underscore.js" ></script>
+		<script src="_scripts/backbone.js" ></script>
+
 		<script src="_scripts/loader.js" ></script>
 	</head>
 	<body>
