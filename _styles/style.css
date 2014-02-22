@@ -48,6 +48,11 @@ body, hr, div, dl, dt, dd, ul, ol, li, p, blockquote, table, th, td, h1, h2, h3,
     background-color: #39424e;
 }
 
+.bg-light-grey
+{
+    background-color: #EEEEEE;
+}
+
 .remove-radius{
     border-radius: 0px !important;
 }

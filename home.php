@@ -38,3 +38,28 @@
 
     </div>
 </div>
+
+<div class="panel panel-default mh-10 mv-10">
+    <div class="panel-heading">
+        Config
+    </div>
+    <div class="panel-body">
+        Here YOu can provide config options
+    </div>
+    <table class="table">
+        <tr>
+            <td class="col-md-2 bg-light-grey">Param 1</td>
+            <td>Value</td>
+        </tr>
+        <tr>
+            <td class="col-md-2 bg-light-grey">Param 2</td>
+            <td>Value</td>
+        </tr>
+        <tr>
+            <td class="col-md-2 bg-light-grey">Param 3</td>
+            <td>Value</td>
+        </tr>
+    </table>
+</div>
+
+
