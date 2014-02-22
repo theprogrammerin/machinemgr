@@ -78,3 +78,8 @@ div.header
 /*
  * Other Content
  */
+
+table.instance-info td
+{
+    vertical-align: middle !important;
+}
