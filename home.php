@@ -64,45 +64,52 @@
     </table>
 </div>
 
+<div id="displayPanel">
 
-<div class="panel panel-default mh-10 mv-10">
-    <div class="panel-heading">
-        Instances
-    </div>
-    <div class="panel-body">
-        These are the instances currently available
-    </div>
-    <table class="table instance-info">
-        <thead>
-            <tr class="bg-light-grey">
-                <th>System</th>
-                <th>Status</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="col-md-2 col-xs-2">System 1</td>
-                <td class="col-md-2 col-xs-2">Offline</td>
-                <td class="">
-                    <div class="btn-group btn-group-small">
-                        <button class="btn btn-default">Start</button>
-                        <button class="btn btn-default disabled">Stop</button>
-                        <button class="btn btn-default">Login</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-2 col-xs-2">System 2</td>
-                <td class="col-md-2 col-xs-2">Running</td>
-                <td class="">
-                    <div class="btn-group btn-group-small">
-                        <button class="btn btn-default disabled">Start</button>
-                        <button class="btn btn-default">Stop</button>
-                        <button class="btn btn-default">Login</button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </div>
+
+<script type="text/template" id="machines-list-view">
+
+    <div class="panel panel-default mh-10 mv-10">
+        <div class="panel-heading">
+            Instances
+        </div>
+        <div class="panel-body">
+            These are the instances currently available
+        </div>
+        <table class="table instance-info">
+            <thead>
+                <tr class="bg-light-grey">
+                    <th>System</th>
+                    <th>Status</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-md-2 col-xs-2">System 1</td>
+                    <td class="col-md-2 col-xs-2">Offline</td>
+                    <td class="">
+                        <div class="btn-group btn-group-small">
+                            <button class="btn btn-default">Start</button>
+                            <button class="btn btn-default disabled">Stop</button>
+                            <button class="btn btn-default">Login</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-2 col-xs-2">System 2</td>
+                    <td class="col-md-2 col-xs-2">Running</td>
+                    <td class="">
+                        <div class="btn-group btn-group-small">
+                            <button class="btn btn-default disabled">Start</button>
+                            <button class="btn btn-default">Stop</button>
+                            <button class="btn btn-default">Login</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</script>
