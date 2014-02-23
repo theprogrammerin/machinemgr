@@ -1,8 +1,10 @@
-<nav class="navbar navbar-default remove-radius navbar-inverse" role="navigation">
+<div class="container-fluid">
+
+<nav class="row navbar navbar-default remove-radius navbar-inverse" role="navigation">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
         <li class="active">
-            <a href="#">Home</a>
+            <a href="home" class="backbone-route">Home</a>
         </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
@@ -16,30 +18,50 @@
   </div>
 </nav>
 
-<ol class="breadcrumb mh-10 mv-10">
+<script type="text/template" id="home-template">
+
+<div class="row ">
+
+    <div class="jumbotron">
+      <h1>Hello, world!</h1>
+      <p>...</p>
+      <p><a href="#tasks" class="btn btn-primary btn-lg backbone-route" role="button">Learn more</a></p>
+    </div>
+
+</div>
+
+</script>
+
+
+
+<ol class="breadcrumb mv-10 ">
   <li><a href="#">Home</a></li>
   <li class="active">Tasks List</li>
 </ol>
 
-<div class="row">
-    <div class="col-md-12 col-xs-12">
+<script id="tasks-template" type="text/template">
 
-    <ul class="list-group mh-10 mv-10">
-      <a href="#" class="list-group-item">System Log
-        <span class="badge">&gt;</span>
-      </a>
-      <a href="#" class="list-group-item">Apache Config
-        <span class="badge">&gt;</span>
-      </a>
-      <a href="#" class="list-group-item">Build Rails App
-        <span class="badge">&gt;</span>
-      </a>
-    </ul>
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
 
+        <ul class="list-group">
+          <a href="#" class="list-group-item">System Log
+            <span class="badge">&gt;</span>
+          </a>
+          <a href="#" class="list-group-item">Apache Config
+            <span class="badge">&gt;</span>
+          </a>
+          <a href="#" class="list-group-item">Build Rails App
+            <span class="badge">&gt;</span>
+          </a>
+        </ul>
+
+        </div>
     </div>
-</div>
 
-<div class="panel panel-default mh-10 mv-10">
+</script>
+
+<div class="panel panel-default ">
     <div class="panel-heading">
         Config
     </div>
@@ -70,7 +92,7 @@
 
 <script type="text/template" id="machines-list-view">
 
-    <div class="panel panel-default mh-10 mv-10">
+    <div class="panel panel-default">
         <div class="panel-heading">
             Instances
         </div>
@@ -113,3 +135,5 @@
     </div>
 
 </script>
+
+</div>
