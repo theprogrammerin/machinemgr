@@ -67,8 +67,7 @@ HR.MachineModel = Backbone.Model.extend({
         else
             return "endpoint/" + this.get("id");
 
-    }
-
+    },
     startMachine: function(){
 
     },
@@ -101,8 +100,8 @@ HR.ConfigModel = Backbone.Model.extend({
 
 HR.MachineCollection = Backbone.Collection.extend({
 
-    initialize: function(){
-
+    initialize: function(data, options){
+        this.constructor.__super__.initialize.apply(this);
     },
     url: "endpoint/",
 
@@ -110,8 +109,9 @@ HR.MachineCollection = Backbone.Collection.extend({
 
 HR.ConfigCollection = Backbone.Collection.extend({
 
-    initialize: function(options){
-        this.machine_id = options.machine_id
+    initialize: function(data, options){
+        this.machine_id = options.machine_id;
+        this.constructor.__super__.initialize.apply(this);
     },
     url: "endpoint/" + this.machine_id + "/config",
 
@@ -142,7 +142,7 @@ HR.TasksView = Backbone.View.extend({
     el: "#displayPanel",
     intialize: function(options){
 
-        this._super( 'intialize', options);
+        this.constructor.__super__.initialize.apply(this);
     },
     render: function(){
         html = _.template($("#tasks-template").html(), window);
@@ -159,7 +159,22 @@ HR.MachineView = Backbone.View.extend({
         this._super( 'intialize', options);
     },
     render: function(){
-        html = _.template($("#machines-list-view").html(), window);
+        html = _.template($("#machines-list-view").html(), { machines: this.collection.toJSON() });
+        this.$el.html(html);
+
+        return this;
+    }
+});
+
+HR.ConfigView = Backbone.View.extend({
+    el: "#displayPanel",
+    intialize: function(options){
+
+        this._super( 'intialize', options);
+    },
+    render: function(){
+        console.log(this.collection);
+        html = _.template($("#params-template").html(), { params: this.collection.toJSON() });
         this.$el.html(html);
 
         return this;
@@ -176,7 +191,9 @@ HRTaskRouter = Backbone.Router.extend({
 
     routes: {
         "home" : "home",
-        "tasks" : "tasks"
+        "tasks" : "tasks",
+        "machines" : "machines",
+        "config/:type" : "configure",
     },
 
     initialize: function(options){
@@ -192,6 +209,29 @@ HRTaskRouter = Backbone.Router.extend({
     tasks: function(){
         tasksView = new HR.TasksView();
         tasksView.render();
+    },
+
+    machines: function(){
+
+        machineCollection = new HR.MachineCollection(sampleData.servers);
+        machinesView = new HR.MachineView({
+            collection: machineCollection
+        });
+        machinesView.render();
+
+    },
+
+    configure: function(type){
+        if(!type){
+            type = "type1"
+        }
+        configCollection = new HR.ConfigCollection(sampleData.params, {
+            type: type,
+        })
+        configView = new HR.ConfigView({
+            collection: configCollection
+        });
+        configView.render();
     }
 
 
@@ -200,7 +240,7 @@ HRTaskRouter = Backbone.Router.extend({
 HR.router = new HRTaskRouter();
 Backbone.history.start({pushState: false, root: "/is/machinemgr/"});
 
-HR.router.navigate("home", true)
+// HR.router.navigate("home", true)
 
 $("a.backbone-route").on("click", function(e){
     e.preventDefault();

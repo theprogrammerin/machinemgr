@@ -4,7 +4,10 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav">
         <li class="active">
-            <a href="home" class="backbone-route">Home</a>
+            <a href="#home" class="backbone-route">Home</a>
+        </li>
+        <li class="">
+            <a href="#machines" class="backbone-route">Machines</a>
         </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
@@ -24,8 +27,8 @@
 
     <div class="jumbotron">
       <h1>Hello, world!</h1>
-      <p>...</p>
-      <p><a href="#tasks" class="btn btn-primary btn-lg backbone-route" role="button">Learn more</a></p>
+      <p>This is Task Manager Dashboard</p>
+      <p><a href="#tasks" class="btn btn-primary btn-lg backbone-route" role="button">View Available Tasks</a></p>
     </div>
 
 </div>
@@ -45,13 +48,13 @@
         <div class="col-md-12 col-xs-12">
 
         <ul class="list-group">
-          <a href="#" class="list-group-item">System Log
+          <a href="#config/system" class="list-group-item backbone-route">System Config
             <span class="badge">&gt;</span>
           </a>
-          <a href="#" class="list-group-item">Apache Config
+          <a href="#config/apache" class="list-group-item backbone-route">Apache Config
             <span class="badge">&gt;</span>
           </a>
-          <a href="#" class="list-group-item">Build Rails App
+          <a href="#" class="list-group-item backbone-route">Build Rails App
             <span class="badge">&gt;</span>
           </a>
         </ul>
@@ -61,6 +64,7 @@
 
 </script>
 
+<script type="text/template" id="params-template">
 <div class="panel panel-default ">
     <div class="panel-heading">
         Config
@@ -70,21 +74,16 @@
     </div>
     <table class="table">
         <tbody>
+            <% _.each(params, function(param){ %>
             <tr>
-                <td class="col-md-2 col-xs-2 bg-light-grey">Param 1</td>
-                <td>Value</td>
+                <td class="col-md-2 col-xs-2 bg-light-grey"><%= param.name %></td>
+                <td><%= param.value %></td>
             </tr>
-            <tr>
-                <td class="col-md-2 col-xs-2 bg-light-grey">Param 2</td>
-                <td>Value</td>
-            </tr>
-            <tr>
-                <td class="col-md-2 col-xs-2 bg-light-grey">Param 3</td>
-                <td>Value</td>
-            </tr>
+            <% }); %>
         </tbody>
     </table>
 </div>
+</script>
 
 <div id="displayPanel">
 
@@ -108,28 +107,19 @@
                 </tr>
             </thead>
             <tbody>
+                <% _.each(machines, function(machine){ %>
                 <tr>
-                    <td class="col-md-2 col-xs-2">System 1</td>
-                    <td class="col-md-2 col-xs-2">Offline</td>
+                    <td class="col-md-2 col-xs-2"><%= machine.name %></td>
+                    <td class="col-md-2 col-xs-2"><%= machine.status %></td>
                     <td class="">
                         <div class="btn-group btn-group-small">
-                            <button class="btn btn-default">Start</button>
-                            <button class="btn btn-default disabled">Stop</button>
-                            <button class="btn btn-default">Login</button>
+                            <button class="btn btn-default <%= [1,-1].indexOf(machine.status_code) > -1 ? 'disabled' : '' %> ">Start</button>
+                            <button class="btn btn-default <%= [0,-1,2].indexOf(machine.status_code) > -1 ? 'disabled' : '' %>">Stop</button>
+                            <button class="btn btn-default <%= [0,-1,2].indexOf(machine.status_code) > -1 ? 'disabled' : '' %>">Login</button>
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-2 col-xs-2">System 2</td>
-                    <td class="col-md-2 col-xs-2">Running</td>
-                    <td class="">
-                        <div class="btn-group btn-group-small">
-                            <button class="btn btn-default disabled">Start</button>
-                            <button class="btn btn-default">Stop</button>
-                            <button class="btn btn-default">Login</button>
-                        </div>
-                    </td>
-                </tr>
+                <% }); %>
             </tbody>
         </table>
     </div>
