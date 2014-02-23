@@ -262,7 +262,7 @@ HRTaskRouter = Backbone.Router.extend({
 });
 
 HR.router = new HRTaskRouter();
-Backbone.history.start({pushState: false, root: "/is/machinemgr/"});
+Backbone.history.start({pushState: false, root: window.location.pathname});
 
 // HR.router.navigate("home", true)
 
