@@ -113,9 +113,9 @@
                     <td class="col-md-2 col-xs-2"><%= machine.status %></td>
                     <td class="">
                         <div class="btn-group btn-group-small">
-                            <button class="btn btn-default <%= [1,-1].indexOf(machine.status_code) > -1 ? 'disabled' : '' %> ">Start</button>
-                            <button class="btn btn-default <%= [0,-1,2].indexOf(machine.status_code) > -1 ? 'disabled' : '' %>">Stop</button>
-                            <button class="btn btn-default <%= [0,-1,2].indexOf(machine.status_code) > -1 ? 'disabled' : '' %>">Login</button>
+                            <button class="startBtn btn btn-default <%= [1,-1].indexOf(machine.status_code) > -1 ? 'disabled' : '' %> " data-machine= "<%= machine.id %>" >Start</button>
+                            <button class="stopBtn btn btn-default <%= [0,-1,2].indexOf(machine.status_code) > -1 ? 'disabled' : '' %>" data-machine= "<%= machine.id %>">Stop</button>
+                            <button class="loginBtn btn btn-default <%= [0,-1,2].indexOf(machine.status_code) > -1 ? 'disabled' : '' %>" data-machine= "<%= machine.id %>">Login</button>
                         </div>
                     </td>
                 </tr>

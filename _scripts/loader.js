@@ -158,11 +158,35 @@ HR.MachineView = Backbone.View.extend({
 
         this._super( 'intialize', options);
     },
+    events: {
+        "click .startBtn" : "startMachine",
+        "click .stopBtn" : "stopMachine",
+        "click .loginBtn" : "loginMachine",
+    },
     render: function(){
         html = _.template($("#machines-list-view").html(), { machines: this.collection.toJSON() });
         this.$el.html(html);
 
         return this;
+    },
+
+    startMachine: function(e){
+        if( $(e.target).hasClass("disabled") )
+            return;
+        machine_id = $(e.target).data("machine");
+        console.log("Starting ", machine_id);
+    },
+    stopMachine: function(e){
+        if( $(e.target).hasClass("disabled") )
+            return;
+        machine_id = $(e.target).data("machine");
+        console.log("Stopping ", machine_id);
+    },
+    loginMachine: function(e){
+        if( $(e.target).hasClass("disabled") )
+            return;
+        machine_id = $(e.target).data("machine");
+        console.log("Login ", machine_id);
     }
 });
 
