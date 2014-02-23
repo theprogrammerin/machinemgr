@@ -12,6 +12,9 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li>
+            <h4 class="mh-5 mv-15 white">Admin</h4>
+        </li>
+        <li>
             <a href="#">
               <span class="badge pull-right">4</span>
               <div class="mh-5 pull-right">Notifications</div>
@@ -20,6 +23,25 @@
     </ul>
   </div>
 </nav>
+
+<script type="text/template">
+
+
+</script>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Login</h3>
+  </div>
+  <div class="panel-body">
+    <form name="login-form" class="form-inline">
+        <input class="form-control" name="user" type="text" placeholder="Username" />
+        <input class="form-control" name="pass" type="password" placeholder="Password" />
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
 
 <script type="text/template" id="home-template">
 
@@ -34,6 +56,7 @@
 </div>
 
 </script>
+
 
 
 

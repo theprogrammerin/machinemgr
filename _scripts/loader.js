@@ -79,6 +79,41 @@ HR.MachineModel = Backbone.Model.extend({
     }
 });
 
+HR.UserModel = Backbone.Model.extend({
+
+    initialize: function(){
+
+    },
+
+    url: "/user",
+
+    checkLogin: function(user, pass){
+        that = this;
+        $.ajax({
+            url: this.url,
+            type: "POST",
+            data: {
+                user: user,
+                password: pass,
+            },
+            success: function(resp, xhr){
+                // if(resp && resp.status)
+                // {
+                //     that.set(resp.model)
+                // }
+                that.set({
+                    user: "admin",
+                    password: "pass",
+                    id: 2,
+                    name: "Admin"
+                })
+            },
+
+        })
+    },
+
+});
+
 HR.ConfigModel = Backbone.Model.extend({
 
     initialize: function(options){
