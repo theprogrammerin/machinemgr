@@ -1,7 +1,7 @@
 <div class="container-fluid">
 
 <script type="text/template" id="navigation-template">
-    
+
 <nav class="row navbar navbar-default remove-radius navbar-inverse" role="navigation">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
@@ -132,19 +132,23 @@
                     <th>System</th>
                     <th>Status</th>
                     <th>Options</th>
+                    <th>View Details</th>
                 </tr>
             </thead>
             <tbody>
-                <% _.each(machines, function(machine){ %>
+                <% _.each(machines, function(machine, i ){ %>
                 <tr>
-                    <td class="col-md-2 col-xs-2"><%= machine.name %></td>
+                    <td class="col-md-2 col-xs-2"><%= machine.dns_name || "Server " + (i+1) %></td>
                     <td class="col-md-2 col-xs-2"><%= machine.status %></td>
                     <td class="">
                         <div class="btn-group btn-group-small">
-                            <button class="startBtn btn btn-default <%= [1,-1].indexOf(machine.status_code) > -1 ? 'disabled' : '' %> " data-machine= "<%= machine.id %>" >Start</button>
-                            <button class="stopBtn btn btn-default <%= [0,-1,2].indexOf(machine.status_code) > -1 ? 'disabled' : '' %>" data-machine= "<%= machine.id %>">Stop</button>
-                            <button class="loginBtn btn btn-default <%= [0,-1,2].indexOf(machine.status_code) > -1 ? 'disabled' : '' %>" data-machine= "<%= machine.id %>">Login</button>
+                            <button class="startBtn btn btn-default <%= machine.status == "stopped" ? 'disabled' : '' %> " data-machine= "<%= machine.id %>" >Start</button>
+                            <button class="stopBtn btn btn-default <%= machine.status == "running"  ? 'disabled' : '' %>" data-machine= "<%= machine.id %>">Stop</button>
+                            <button class="loginBtn btn btn-default <%= machine.status == "running" ? 'disabled' : '' %>" data-machine= "<%= machine.id %>">Login</button>
                         </div>
+                    </td>
+                    <td class="col-md-1 col-xs-1">
+                        <a href="#machines/<%=machine.id %>/configure" class="backbone-route btn btn-default btn-small" >Details</a>
                     </td>
                 </tr>
                 <% }); %>

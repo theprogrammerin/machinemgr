@@ -1,48 +1,7 @@
 
 sampleData = {
 
-    servers: [{
-        id: 1,
-        name: "Server 1",
-        status: "Running",
-        status_code: 1,
-    },{
-        id: 2,
-        name: "Server 2",
-        status: "Stopped",
-        status_code: 0,
-    },{
-        id: 3,
-        name: "Server 3",
-        status: "Configuring",
-        status_code: -1,
-    },{
-        id: 4,
-        name: "Server 4",
-        status: "Offline",
-        status_code: 2,
-    }],
-    params: [{
-        id: 12,
-        type: "type1",
-        name: "Param 1",
-        value: "Value 1"
-    },{
-        id: 13,
-        type: "type2",
-        name: "Param 2",
-        value: "Value 2"
-    },{
-        id: 14,
-        type: "type1",
-        name: "Param 3",
-        value: "Value 3"
-    },{
-        id: 15,
-        type: "type1",
-        name: "Param 4",
-        value: "Value 4"
-    }]
+    servers: [{"id":"i-3312f51c", "dns_name":null, "security_groups":["tasks-allow-ssh", "tasks"], "tags":[["hrxtask-server", "true"], ["company-IS", "true"], ["Name", "hrxtask-IS"]], "public_ip":null, "private_ip":null, "status":"stopped"}, {"id":"i-b0eb0d9f", "dns_name":"ec2-54-80-90-248.compute-1.amazonaws.com", "security_groups":["tasks-allow-ssh", "tasks-allow-ping"], "tags":[["hrxtask-server", "true"], ["company-IS", "true"], ["Name", "hrxtask-IS"]], "public_ip":"54.80.90.248", "private_ip":"10.90.187.56", "status":"running"}, {"id":"i-fa86c6d4", "dns_name":"ec2-54-205-100-202.compute-1.amazonaws.com", "security_groups":["tasks"], "tags":[["Name", "task-master"], ["hrxtask-server", "true"]], "public_ip":"54.205.100.202", "private_ip":"10.7.22.147", "status":"running"}, {"id":"i-fb86c6d5", "dns_name":null, "security_groups":["tasks"], "tags":[["Name", "task-slave"], ["hrxcompany-123", null], ["hrxtask-server", "true"]], "public_ip":null, "private_ip":null, "status":"stopped"}]
 
 };
 
@@ -121,20 +80,6 @@ HR.UserModel = Backbone.Model.extend({
 
 });
 
-HR.ConfigModel = Backbone.Model.extend({
-
-    initialize: function(options){
-        this.machine_id = options.machine_id;
-    },
-
-    url: function(){
-        if(this.isNew())
-            return "endpoint/" + this.machine_id + "/config/"
-        else
-            return "endpoint/" + this.machine_id + "/config/" + this.get("id")
-    }
-})
-
 
 /*
  *   ===========Collections==============
@@ -146,16 +91,6 @@ HR.MachineCollection = Backbone.Collection.extend({
         this.constructor.__super__.initialize.apply(this);
     },
     url: "endpoint/",
-
-})
-
-HR.ConfigCollection = Backbone.Collection.extend({
-
-    initialize: function(data, options){
-        this.machine_id = options.machine_id;
-        this.constructor.__super__.initialize.apply(this);
-    },
-    url: "endpoint/" + this.machine_id + "/config",
 
 })
 
@@ -282,12 +217,12 @@ HR.MachineView = Backbone.View.extend({
 HR.ConfigView = Backbone.View.extend({
     el: "#displayPanel",
     intialize: function(options){
-
+        this.model = options.model
         this._super( 'intialize', options);
     },
     render: function(){
         console.log(this.collection);
-        html = _.template($("#params-template").html(), { params: this.collection.toJSON() });
+        html = _.template($("#params-template").html(), { params: this.model.toJSON() });
         this.$el.html(html);
 
         return this;
@@ -303,12 +238,12 @@ HR.ConfigView = Backbone.View.extend({
 HRTaskRouter = Backbone.Router.extend({
 
     routes: {
-        "login"         : "login",
-        "home"          : "home",
-        "tasks"         : "tasks",
-        "machines"      : "machines",
-        "config/:type"  : "configure",
-        "*path"         : "default"
+        "login"                     : "login",
+        "home"                      : "home",
+        "tasks"                     : "tasks",
+        "machines"                  : "machines",
+        "machines/:id/configure"    : "configure",
+        "*path"                     : "default"
     },
 
     initialize: function(options){
@@ -360,24 +295,26 @@ HRTaskRouter = Backbone.Router.extend({
 
     machines: function(){
         if(!this.checkLogin()) return;
-        machineCollection = new HR.MachineCollection(sampleData.servers);
+        if(!HR.machines)
+        {
+            HR.machines = new HR.MachineCollection(sampleData.servers);
+        }
         machinesView = new HR.MachineView({
-            collection: machineCollection
+            collection: HR.machines
         });
         machinesView.render();
 
     },
 
-    configure: function(type){
+    configure: function(id){
         if(!this.checkLogin()) return;
-        if(!type){
-            type = "type1"
+        if(!HR.machines)
+        {
+            HR.machines = new HR.MachineCollection(sampleData.servers);
         }
-        configCollection = new HR.ConfigCollection(sampleData.params, {
-            type: type,
-        })
+        machineModel = HR.machines.where( { "id" : id})[0];
         configView = new HR.ConfigView({
-            collection: configCollection
+            model: machineModel
         });
         configView.render();
     }
