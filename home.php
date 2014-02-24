@@ -29,7 +29,9 @@
 </script>
 
 <script type="text/template" id="login-template">
-
+<ol class="breadcrumb mv-10 ">
+  <li><a class="active">Login</a></li>
+</ol>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Login</h3>
@@ -142,8 +144,8 @@
         <div class="row">
             <div class="col-md-2 col-xs-2">
                 <div class="btn btn-group ph-5">
-                    <button type="button" class="btn btn-primary <%= machine.status == "stopped" ? 'disabled' : '' %>"> Start </button>
-                    <button type="button" class="btn-primary btn <%= machine.status == "running" ? 'disabled' : '' %>"> Stop </button>
+                    <button type="button" class="start btn btn-primary <%= machine.status == "stopped" ? 'disabled' : '' %>"> Start </button>
+                    <button type="button" class="stop  btn-primary btn <%= machine.status == "running" ? 'disabled' : '' %>"> Stop </button>
                 </div>
             </div>
             <div class="col-md-4 col-xs-4 pull-right">
@@ -158,11 +160,13 @@
 </div>
 </script>
 
-<div id="navPanel">
+<div id="appView">
+    <div id="navPanel">
 
-</div>
-<div id="displayPanel">
+    </div>
+    <div id="displayPanel">
 
+    </div>
 </div>
 
 

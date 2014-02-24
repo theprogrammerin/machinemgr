@@ -28,13 +28,16 @@ HR.MachineModel = Backbone.Model.extend({
 
     },
     startMachine: function(){
-
+        console.log("Starting Machine: " + this.get("id"));
+        // Right your code to trigger start machine here,
     },
     stopMachine: function(){
-
+        console.log("Stopping Machine: " + this.get("id"));
+        // Right your code to trigger start machine here,
     },
     loginMachine: function(user, pass){
-
+        console.log("Log Into Machine: " + this.get("id"));
+        // Right your code to trigger start machine here,
     }
 });
 
@@ -87,9 +90,12 @@ HR.UserModel = Backbone.Model.extend({
 
 HR.MachineCollection = Backbone.Collection.extend({
 
+    model: HR.MachineModel,
+
     initialize: function(data, options){
         this.constructor.__super__.initialize.apply(this);
     },
+
     url: "endpoint/",
 
 })
@@ -185,7 +191,7 @@ HR.TasksView = Backbone.View.extend({
 HR.MachineView = Backbone.View.extend({
     el: "#displayPanel",
     intialize: function(options){
-
+        this.collection = options.collection;
         this._super( 'intialize', options);
     },
     events: {
@@ -194,6 +200,7 @@ HR.MachineView = Backbone.View.extend({
         "click .loginBtn" : "loginMachine",
     },
     render: function(){
+        $("#displayPanel").empty();
         html = _.template($("#machines-list-view").html(), { machines: this.collection.toJSON() });
         this.$el.html(html);
 
@@ -204,19 +211,22 @@ HR.MachineView = Backbone.View.extend({
         if( $(e.target).hasClass("disabled") )
             return;
         machine_id = $(e.target).data("machine");
-        console.log("Starting ", machine_id);
+        machineModel = this.collection.where({ id: machine_id })[0];
+        machineModel.startMachine();
     },
     stopMachine: function(e){
         if( $(e.target).hasClass("disabled") )
             return;
         machine_id = $(e.target).data("machine");
-        console.log("Stopping ", machine_id);
+        machineModel = this.collection.where({ id: machine_id })[0];
+        machineModel.stopMachine();
     },
     loginMachine: function(e){
         if( $(e.target).hasClass("disabled") )
             return;
         machine_id = $(e.target).data("machine");
-        console.log("Login ", machine_id);
+        machineModel = this.collection.where({ id: machine_id })[0];
+        machineModel.startMachine();
     }
 });
 
@@ -226,16 +236,45 @@ HR.ConfigView = Backbone.View.extend({
         this.model = options.model
         this._super( 'intialize', options);
     },
+    events: {
+        "click .start"  : "startMachine",
+        "click .stop"   : "stopMachine",
+    },
     render: function(){
         console.log(this.collection);
         html = _.template($("#params-template").html(), { machine: this.model.toJSON() });
         this.$el.html(html);
 
         return this;
-    }
+    },
+    startMachine: function(e){
+        this.model.startMachine();
+    },
+    stopMachine: function(e){
+        this.model.stopMachine();
+    },
 });
 
+HR.AppView = Backbone.View.extend({
 
+    el: "#appView",
+    initialize: function(options){
+
+        this.appView = null;
+    },
+    renderSubView: function(newView){
+
+        if(this.appView){
+            this.appView.undelegateEvents();
+            // this.$el.find("#displayPanel").remove();
+            // this.$el.append("<div id='displayPanel'></div> ");
+        }
+        newView.el = "#displayPanel";
+        this.appView = newView;
+        newView.render();
+    }
+
+});
 
 /*
  *   ===========Router==============
@@ -278,7 +317,7 @@ HRTaskRouter = Backbone.Router.extend({
         loginView = new HR.LoginView({
             model: userModel
         });
-        loginView.render();
+        HR.appView.renderSubView(loginView);
     },
     home: function(){
         if(!this.checkLogin()) return;
@@ -288,9 +327,7 @@ HRTaskRouter = Backbone.Router.extend({
             HR.navView = new HR.NavView();
         }
         HR.navView.setActive("home").render();
-
-        homeView = new HR.HomeView();
-        homeView.render();
+        HR.appView.renderSubView(new HR.HomeView());
 
     },
     tasks: function(){
@@ -309,7 +346,7 @@ HRTaskRouter = Backbone.Router.extend({
         machinesView = new HR.MachineView({
             collection: HR.machines
         });
-        machinesView.render();
+        HR.appView.renderSubView(machinesView);
 
     },
 
@@ -324,13 +361,14 @@ HRTaskRouter = Backbone.Router.extend({
         configView = new HR.ConfigView({
             model: machineModel
         });
-        configView.render();
+        HR.appView.renderSubView(configView);
     }
 
 
 });
 
 HR.router = new HRTaskRouter();
+HR.appView = new HR.AppView();
 Backbone.history.start({pushState: false, root: window.location.pathname});
 
 // HR.router.navigate("home", true)
