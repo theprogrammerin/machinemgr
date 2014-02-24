@@ -1,5 +1,42 @@
 <div class="container-fluid">
 
+<script type="text/template" id="credentials-template">
+
+    <ol class="breadcrumb mv-10 ">
+      <li><a href="#home">Home</a></li>
+      <li class="active">Credentials</li>
+    </ol>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Your Access Credentials</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3 col-xs-3"></div>
+            <div class="col-md-6 col-xs-6">
+                <table class="table table-bordered col-md-3 col-xs-6">
+                    <tr>
+                        <td class="col-md-1 col-xs-2 active">Server: </td>
+                        <td class="col-md-2 col-xs-4">Abcde</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-1 col-xs-2 active">Username: </td>
+                        <td class="col-md-2 col-xs-4">Abcde</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-1 col-xs-2 active">Password: </td>
+                        <td class="col-md-2 col-xs-4">Abcde</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-3 col-xs-3"></div>
+        </div>
+      </div>
+    </div>
+
+</script>
+
 <script type="text/template" id="navigation-template">
 
 <nav class="row navbar navbar-default remove-radius navbar-inverse" role="navigation">

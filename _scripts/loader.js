@@ -15,6 +15,13 @@ $("document").ready(function(){
 HR = {}
 window.HR = HR
 
+HR.CredentialsModel = Backbone.Model.extend({
+    intialize: function(){
+
+    },
+    url: "endpoint-recieve"
+});
+
 HR.MachineModel = Backbone.Model.extend({
 
     intialize: function(){
@@ -255,6 +262,21 @@ HR.ConfigView = Backbone.View.extend({
     },
 });
 
+HR.CredentialsView = Backbone.View.extend({
+
+    el: "#appView",
+    initialize: function(options){
+        this.model = options.model;
+
+    },
+    render: function(){
+        html = _.template($("#credentials-template").html(), { model: this.model.toJSON() });
+        this.$el.html(html);
+        return this;
+    }
+
+});
+
 HR.AppView = Backbone.View.extend({
 
     el: "#appView",
@@ -288,10 +310,31 @@ HRTaskRouter = Backbone.Router.extend({
         "tasks"                     : "tasks",
         "machines"                  : "machines",
         "machines/:id/configure"    : "configure",
+        "getlogin/:id"              : "credentials",
         "*path"                     : "default"
     },
 
     initialize: function(options){
+    },
+
+    credentials: function(id){
+
+        credentialsModel = new HR.CredentialsModel({
+            id: id
+        });
+        credentialsView = new HR.CredentialsView({
+            model: credentialsModel
+        });
+        HR.appView.renderSubView(credentialsView)
+        // credentialsModel.fetch({
+        //     success: function(model){
+                // credentialsView = new HR.CredentialsView({
+                //     model: model
+                // });
+        //         HR.appView.renderSubView(credentialsView)
+        //     }
+        // });
+
     },
 
     checkLogin: function( route, option ){
