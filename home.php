@@ -5,10 +5,10 @@
 <nav class="row navbar navbar-default remove-radius navbar-inverse" role="navigation">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-        <li class="active">
+        <li class="<%= activeLink == "home" ? "active" : "" %>">
             <a href="#home" class="backbone-route">Home</a>
         </li>
-        <li class="">
+        <li class="<%= activeLink == "machines" ? "active" : "" %>">
             <a href="#machines" class="backbone-route">Machines</a>
         </li>
     </ul>
@@ -53,7 +53,7 @@
     <div class="jumbotron">
       <h1>Hello, world!</h1>
       <p>This is Task Manager Dashboard</p>
-      <p><a href="#tasks" class="btn btn-primary btn-lg backbone-route" role="button">View Available Tasks</a></p>
+      <p><a href="#machines" class="btn btn-primary btn-lg backbone-route" role="button">View Machines</a></p>
     </div>
 
 </div>

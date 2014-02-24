@@ -150,11 +150,17 @@ HR.HomeView = Backbone.View.extend({
 HR.NavView = Backbone.View.extend({
     el: "#navPanel",
     intialize: function(options){
-
+        this.activeLink = "home";
         this._super( 'intialize', options);
     },
+    setActive: function(activeLink){
+        this.activeLink = activeLink;
+        return this;
+    },
     render: function(){
-        html = _.template($("#navigation-template").html(), window);
+        html = _.template($("#navigation-template").html(), {
+            activeLink: this.activeLink
+        });
         this.$el.html(html);
 
         return this;
@@ -280,8 +286,8 @@ HRTaskRouter = Backbone.Router.extend({
 
         if(!HR.navView){
             HR.navView = new HR.NavView();
-            HR.navView.render();
         }
+        HR.navView.setActive("home").render();
 
         homeView = new HR.HomeView();
         homeView.render();
@@ -295,6 +301,7 @@ HRTaskRouter = Backbone.Router.extend({
 
     machines: function(){
         if(!this.checkLogin()) return;
+        HR.navView.setActive("machines").render();
         if(!HR.machines)
         {
             HR.machines = new HR.MachineCollection(sampleData.servers);
@@ -308,6 +315,7 @@ HRTaskRouter = Backbone.Router.extend({
 
     configure: function(id){
         if(!this.checkLogin()) return;
+        HR.navView.setActive("configure").render();
         if(!HR.machines)
         {
             HR.machines = new HR.MachineCollection(sampleData.servers);
