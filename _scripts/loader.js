@@ -222,7 +222,7 @@ HR.ConfigView = Backbone.View.extend({
     },
     render: function(){
         console.log(this.collection);
-        html = _.template($("#params-template").html(), { params: this.model.toJSON() });
+        html = _.template($("#params-template").html(), { machine: this.model.toJSON() });
         this.$el.html(html);
 
         return this;

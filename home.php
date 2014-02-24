@@ -83,23 +83,78 @@
 </script>
 
 <script type="text/template" id="params-template">
+<ol class="breadcrumb mv-10 ">
+  <li><a href="#home">Home</a></li>
+  <li><a href="#machines">Machines</a></li>
+  <li class="active">Details</li>
+</ol>
+
 <div class="panel panel-default ">
     <div class="panel-heading">
-        Config
+        Server Info
     </div>
     <div class="panel-body">
-        Here YOu can provide config options
+        <div class="row">
+            <div class="col-md-4 col-xs-4">
+                <strong>Server: </strong>
+                <%= machine.dns_name %>
+            </div>
+            <div class="col-md-2 col-xs-2 pull-right text-right">
+                <% if(machine.status == "running"){ %>
+                    <span class="text-success">Running</span>
+                <% } else { %>
+                    <span class="text-warning">Stopped</span>
+                <% } %>
+            </div>
+        </div>
     </div>
     <table class="table">
         <tbody>
-            <% _.each(params, function(param){ %>
             <tr>
-                <td class="col-md-2 col-xs-2 bg-light-grey"><%= param.name %></td>
-                <td><%= param.value %></td>
+                <td class="col-md-2 col-xs-2 bg-light-grey">Tags</td>
+                <%
+                    tags = [];
+                    _.each( machine.tags, function(tag){
+                        if(tag[1] == "true")
+                        {
+                            tags.push(tag[0]);
+                        }
+                    } );
+                %>
+                <td><%= tags.join(", ") %></td>
             </tr>
-            <% }); %>
+            <tr>
+                <td class="col-md-2 col-xs-2 bg-light-grey">Security Groups</td>
+                <td><%= machine.security_groups.join(", ") %></td>
+            </tr>
+            <tr>
+                <td class="col-md-2 col-xs-2 bg-light-grey">Public IP</td>
+                <td><%= machine.public_ip %></td>
+            </tr>
+            <tr>
+                <td class="col-md-2 col-xs-2 bg-light-grey">Private IP</td>
+                <td><%= machine.private_ip %></td>
+            </tr>
+
         </tbody>
     </table>
+    <div class="panel-footer ph-5">
+        <div class="row">
+            <div class="col-md-2 col-xs-2">
+                <div class="btn btn-group ph-5">
+                    <button type="button" class="btn btn-primary <%= machine.status == "stopped" ? 'disabled' : '' %>"> Start </button>
+                    <button type="button" class="btn-primary btn <%= machine.status == "running" ? 'disabled' : '' %>"> Stop </button>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-4 pull-right">
+                <div class="input-group" style="padding:7px;">
+                  <span class="input-group-addon">Generate Credentials Link:</span>
+                  <input type="text" class="form-control disabled" disabled="true" value="<%= machine.public_url || "Not Generated Yet" %>">
+                  <a href="#" class="input-group-addon">Copy</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </script>
 
@@ -112,12 +167,12 @@
 
 
 
-<ol class="breadcrumb mv-10 ">
-  <li><a href="#">Home</a></li>
-  <li class="active">Tasks List</li>
-</ol>
-
 <script type="text/template" id="machines-list-view">
+
+    <ol class="breadcrumb mv-10 ">
+      <li><a href="#home">Home</a></li>
+      <li class="active">Machines</li>
+    </ol>
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -138,7 +193,7 @@
             <tbody>
                 <% _.each(machines, function(machine, i ){ %>
                 <tr>
-                    <td class="col-md-2 col-xs-2"><%= machine.dns_name || "Server " + (i+1) %></td>
+                    <td class="col-md-4 col-xs-4"><%= machine.dns_name || "Server " + (i+1) %></td>
                     <td class="col-md-2 col-xs-2"><%= machine.status %></td>
                     <td class="">
                         <div class="btn-group btn-group-small">
@@ -154,6 +209,9 @@
                 <% }); %>
             </tbody>
         </table>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-primary"> Start New Instance </button>
+        </div>
     </div>
 
 </script>
