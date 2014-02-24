@@ -87,8 +87,15 @@ HR.UserModel = Backbone.Model.extend({
 
     url: "/user",
 
-    checkLogin: function(user, pass){
+    checkLogin: function(user, pass, callback){
         that = this;
+        that.set({
+            user: "admin",
+            password: "pass",
+            id: 2,
+            name: "Admin"
+        });
+        return;
         $.ajax({
             url: this.url,
             type: "POST",
@@ -158,6 +165,39 @@ HR.ConfigCollection = Backbone.Collection.extend({
  *   ===========Views==============
  */
 
+HR.LoginView = Backbone.View.extend({
+
+    el: "#displayPanel",
+    intialize: function(options){
+
+        this.model = options.model;
+    },
+    render: function(){
+        html = _.template($("#login-template").html(), window);
+        this.$el.html(html);
+
+        return this;
+    },
+    events: {
+        "submit form[name=login-form]" : "loginUser"
+    },
+
+    loginUser: function(event){
+        event.preventDefault();
+        user = this.$el.find("input[name=user]").val();
+        pass = this.$el.find("input[name=pass]").val();
+
+        this.model.on("change", this.checkStatus);
+        this.model.checkLogin(user, pass);
+
+    },
+    checkStatus: function(){
+        if( HR.current_user.get("name") ){
+            HR.router.navigate("home", true);
+        }
+    }
+})
+
 HR.HomeView = Backbone.View.extend({
     el: "#displayPanel",
     intialize: function(options){
@@ -166,6 +206,20 @@ HR.HomeView = Backbone.View.extend({
     },
     render: function(){
         html = _.template($("#home-template").html(), window);
+        this.$el.html(html);
+
+        return this;
+    }
+});
+
+HR.NavView = Backbone.View.extend({
+    el: "#navPanel",
+    intialize: function(options){
+
+        this._super( 'intialize', options);
+    },
+    render: function(){
+        html = _.template($("#navigation-template").html(), window);
         this.$el.html(html);
 
         return this;
@@ -249,29 +303,63 @@ HR.ConfigView = Backbone.View.extend({
 HRTaskRouter = Backbone.Router.extend({
 
     routes: {
-        "home" : "home",
-        "tasks" : "tasks",
-        "machines" : "machines",
-        "config/:type" : "configure",
+        "login"         : "login",
+        "home"          : "home",
+        "tasks"         : "tasks",
+        "machines"      : "machines",
+        "config/:type"  : "configure",
+        "*path"         : "default"
     },
 
     initialize: function(options){
-
     },
 
+    checkLogin: function( route, option ){
+
+        if(HR && HR.current_user && HR.current_user.get("id")){
+            console.log("test");
+            return true;
+        }
+        else{
+            this.navigate( "login", true );
+            return false;
+        }
+    },
+
+    default: function(){
+        this.navigate("login", true);
+    },
+
+    login: function(){
+
+        userModel = new HR.UserModel();
+        HR.current_user = userModel;
+        loginView = new HR.LoginView({
+            model: userModel
+        });
+        loginView.render();
+    },
     home: function(){
+        if(!this.checkLogin()) return;
         console.log("Home fxn");
+
+        if(!HR.navView){
+            HR.navView = new HR.NavView();
+            HR.navView.render();
+        }
+
         homeView = new HR.HomeView();
         homeView.render();
 
     },
     tasks: function(){
+        if(!this.checkLogin()) return;
         tasksView = new HR.TasksView();
         tasksView.render();
     },
 
     machines: function(){
-
+        if(!this.checkLogin()) return;
         machineCollection = new HR.MachineCollection(sampleData.servers);
         machinesView = new HR.MachineView({
             collection: machineCollection
@@ -281,6 +369,7 @@ HRTaskRouter = Backbone.Router.extend({
     },
 
     configure: function(type){
+        if(!this.checkLogin()) return;
         if(!type){
             type = "type1"
         }

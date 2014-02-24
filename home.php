@@ -1,5 +1,7 @@
 <div class="container-fluid">
 
+<script type="text/template" id="navigation-template">
+    
 <nav class="row navbar navbar-default remove-radius navbar-inverse" role="navigation">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
@@ -12,7 +14,7 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <h4 class="mh-5 mv-15 white">Admin</h4>
+            <h4 class="mh-5 mv-15 white"><%= HR.current_user.get("name") %></h4>
         </li>
         <li>
             <a href="#">
@@ -24,10 +26,9 @@
   </div>
 </nav>
 
-<script type="text/template">
-
-
 </script>
+
+<script type="text/template" id="login-template">
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -41,6 +42,8 @@
     </form>
   </div>
 </div>
+
+</script>
 
 
 <script type="text/template" id="home-template">
@@ -56,14 +59,6 @@
 </div>
 
 </script>
-
-
-
-
-<ol class="breadcrumb mv-10 ">
-  <li><a href="#">Home</a></li>
-  <li class="active">Tasks List</li>
-</ol>
 
 <script id="tasks-template" type="text/template">
 
@@ -108,9 +103,19 @@
 </div>
 </script>
 
+<div id="navPanel">
+
+</div>
 <div id="displayPanel">
 
 </div>
+
+
+
+<ol class="breadcrumb mv-10 ">
+  <li><a href="#">Home</a></li>
+  <li class="active">Tasks List</li>
+</ol>
 
 <script type="text/template" id="machines-list-view">
 
